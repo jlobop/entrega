@@ -12,9 +12,9 @@ class Libro(models.Model):
     Isbn = models.BigIntegerField(primary_key=True)
     Titulo= models.CharField(max_length=60)
     Autor=models.CharField(max_length=60)
-    Fecha_ingreso = models.DateTimeField(unique=False)
+    Fecha_ingreso = models.DateField(unique=False)
     def __str__(self):
-        return (str(self.id)+", "+self.Titulo)
+        return (str(self.Isbn)+", "+self.Titulo)
     #def was_published_recently(self):
      #   return self.pub_date >= timezone.now()-datetime.timedelta(days=1)
     
@@ -30,16 +30,16 @@ class Socio(models.Model):
     Nombre=models.CharField(max_length=20)
     Apellido=models.CharField(max_length=20)
     Email=models.EmailField()
-    Fecha_nac=models.DateTimeField(unique=False)
+    Fecha_nac=models.DateField(unique=False)
     Estado_moroso=models.BooleanField(default=False)
     def __str__(self):
-        return (str(self.id)+", "+self.Nombre+" "+self.Apellido)
+        return (str(self.Id)+", "+self.Nombre+" "+self.Apellido)
 
 class Prestamo(models.Model):
     Inventario=models.ForeignKey(Copia)
     Id=models.ForeignKey(Socio)
     Id_prestamo=models.AutoField(primary_key=True)
-    Fecha_prestamo=models.DateTimeField(unique=False,null=False)
+    Fecha_prestamo=models.DateField(unique=False,null=False)
     Estado=models.CharField(max_length=15,default='Pendiente')
     def Calcular_Fecha_devolucion(self):
         self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
