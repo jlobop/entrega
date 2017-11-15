@@ -45,7 +45,7 @@ class Prestamo(models.Model):
         self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
         #return self.Fecha_devolucion
     def __str__(self):
-        return (str(self.id)+", "+self.Fecha_devolucion)
+        return (str(self.id)+", "+self.Fecha_devolucion+", "+self.Inventario)
     
     
     
