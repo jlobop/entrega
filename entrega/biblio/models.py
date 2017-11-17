@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 import datetime
 from django.db.models.fields.related import ForeignKey
-from datetime import timedelta
+from datetime import timedelta, date
 
 # Create your models here.
 
@@ -20,10 +20,10 @@ class Libro(models.Model):
     
 class Copia(models.Model):
     Isbn = models.ForeignKey(Libro)
-    Inventario= models.IntegerField(unique=True)
+    Inventario= models.AutoField(primary_key=True)
     Prestado=models.BooleanField(default=False)
     def __str__(self):
-        return(str(self.inventario))
+        return(str(self.Inventario)+" "+str(self.Isbn))
 
 class Socio(models.Model):
     Id=models.AutoField(primary_key=True)
@@ -34,18 +34,26 @@ class Socio(models.Model):
     Estado_moroso=models.BooleanField(default=False)
     def __str__(self):
         return (str(self.Id)+", "+self.Nombre+" "+self.Apellido)
-
+    def get_prestamos(self):
+        lista=self.prestamo_set.all()
+        return(lista)
+    
 class Prestamo(models.Model):
     Inventario=models.ForeignKey(Copia)
     Id=models.ForeignKey(Socio)
     Id_prestamo=models.AutoField(primary_key=True)
     Fecha_prestamo=models.DateField(unique=False,null=False)
     Estado=models.CharField(max_length=15,default='Pendiente')
-    def Calcular_Fecha_devolucion(self):
-        self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
-        #return self.Fecha_devolucion
+    #Fecha_devolucion = date(int(str(Fecha_prestamo)) + datetime.timedelta(days=7))
+    
+    #def Calcular_Fecha_devolucion(self):
+    #    #self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
+    #    self.Fecha_devolucion = self.Fecha_prestamo + datetime.timedelta(days=7)
+    #    #return self.Fecha_devolucion
+    #def __init__(self):
+    #    self.Calcular_Fecha_devolucion()
     def __str__(self):
-        return (str(self.id)+", "+self.Fecha_devolucion+", "+self.Inventario)
+        return (str(self.Id)+", "+self.Fecha_devolucion+", "+self.Inventario)
     
     
     
