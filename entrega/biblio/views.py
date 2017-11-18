@@ -32,7 +32,7 @@ def info_socio(request,Id_socio):
 def info_copia(request,Inventario):
     copia_inst = get_object_or_404(Copia, pk = Inventario)
     template = loader.get_template('biblio/info_copia.html')
-    context = {
+    context = { 
         'copia': copia_inst,
     }
     return HttpResponse(template.render(context, request))
