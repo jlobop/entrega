@@ -10,8 +10,8 @@ from datetime import timedelta, date
 
 class Libro(models.Model):
     Isbn = models.BigIntegerField(primary_key=True)
-    Titulo= models.CharField(max_length=60)
-    Autor=models.CharField(max_length=60)
+    Titulo = models.CharField(max_length=60)
+    Autor = models.CharField(max_length=60)
     Fecha_ingreso = models.DateField(unique=False)
     def __str__(self):
         return (str(self.Isbn)+", "+self.Titulo)
@@ -20,18 +20,18 @@ class Libro(models.Model):
     
 class Copia(models.Model):
     Isbn = models.ForeignKey(Libro)
-    Inventario= models.AutoField(primary_key=True)
-    Prestado=models.BooleanField(default=False)
+    Inventario = models.AutoField(primary_key=True)
+    Prestado = models.BooleanField(default=False)
     def __str__(self):
         return(str(self.Inventario)+" "+str(self.Isbn))
 
 class Socio(models.Model):
-    Id=models.AutoField(primary_key=True)
-    Nombre=models.CharField(max_length=20)
-    Apellido=models.CharField(max_length=20)
-    Email=models.EmailField()
-    Fecha_nac=models.DateField(unique=False)
-    Estado_moroso=models.BooleanField(default=False)
+    Id = models.AutoField(primary_key=True)
+    Nombre = models.CharField(max_length=20)
+    Apellido = models.CharField(max_length=20)
+    Email = models.EmailField()
+    Fecha_nac = models.DateField(unique=False)
+    Estado_moroso = models.BooleanField(default=False)
     def __str__(self):
         return (str(self.Id)+", "+self.Nombre+" "+self.Apellido)
     def get_prestamos(self):
@@ -39,11 +39,11 @@ class Socio(models.Model):
         return(lista)
     
 class Prestamo(models.Model):
-    Inventario=models.ForeignKey(Copia)
-    Id=models.ForeignKey(Socio)
-    Id_prestamo=models.AutoField(primary_key=True)
-    Fecha_prestamo=models.DateField(unique=False,null=False)
-    Estado=models.CharField(max_length=15,default='Pendiente')
+    Inventario = models.ForeignKey(Copia)
+    Id = models.ForeignKey(Socio)
+    Id_prestamo = models.AutoField(primary_key=True)
+    Fecha_prestamo = models.DateField(unique=False,null=False)
+    Estado = models.CharField(max_length=15,default='Pendiente')
     #Fecha_devolucion = date(int(str(Fecha_prestamo)) + datetime.timedelta(days=7))
     
     #def Calcular_Fecha_devolucion(self):
