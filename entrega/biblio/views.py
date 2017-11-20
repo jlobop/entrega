@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Copia, Socio, Prestamo, Libro
 from django.template import loader
+import datetime
+from .controllers import *
+
 from django.template.context_processors import request
 
 # Create your views here.
@@ -32,7 +35,7 @@ def info_socio(request,Id_socio):
 def info_copia(request,Inventario):
     copia_inst = get_object_or_404(Copia, pk = Inventario)
     template = loader.get_template('biblio/info_copia.html')
-    context = { 
+    context = {
         'copia': copia_inst,
     }
     return HttpResponse(template.render(context, request))
@@ -55,6 +58,12 @@ def futuros_morosos(request):
     return HttpResponse("devuelve lista de futuros morosos")
 
 def prestamo_fecha(request,fecha):
-    return HttpResponse("devuelve lista de libros prestados en determinada fecha "+fecha)
+    try:
+        fechaValidada = datetime.datetime.strptime(fecha, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+
+    lista='<BR>'.join([str(i) for i in GestorPrestamos.getPrestados(Estado='Pendiente')])
+    return HttpResponse("devuelve lista de libros prestados en determinada fecha " + str(fechaValidada) + str(fecha) + "<br>" + lista)
     #Revisar que el input sea una fecha valida
 

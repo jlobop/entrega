@@ -6,8 +6,8 @@ import datetime
 from django.db.models.fields.related import ForeignKey
 from datetime import timedelta, date
 
-# Create your models here.
 
+# Create your models here.
 class Libro(models.Model):
     Isbn = models.BigIntegerField(primary_key=True)
     Titulo = models.CharField(max_length=60)
@@ -44,18 +44,15 @@ class Prestamo(models.Model):
     Id_prestamo = models.AutoField(primary_key=True)
     Fecha_prestamo = models.DateField(unique=False,null=False)
     Estado = models.CharField(max_length=15,default='Pendiente')
+    # Los estados son o Pendiente o Terminado
+
     #Fecha_devolucion = date(int(str(Fecha_prestamo)) + datetime.timedelta(days=7))
     
-    #def Calcular_Fecha_devolucion(self):
-    #    #self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
-    #    self.Fecha_devolucion = self.Fecha_prestamo + datetime.timedelta(days=7)
-    #    #return self.Fecha_devolucion
+    def Calcular_Fecha_devolucion(self):
+        #self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
+        Fecha_devolucion = self.Fecha_prestamo + timedelta(days=7)
+        return (Fecha_devolucion)
     #def __init__(self):
     #    self.Calcular_Fecha_devolucion()
     def __str__(self):
-        return (str(self.Id)+", "+self.Fecha_devolucion+", "+self.Inventario)
-    
-    
-    
-    
-
+        return (str(self.Id)+", "+str(self.Calcular_Fecha_devolucion())+", "+str(self.Inventario))
