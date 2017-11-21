@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Prestamos en la fecha</title>
 </head>
 <body>
-
+    <h1>Prestamos realizados en la fecha {{ fecha }}</h1>
+    {% if listaPrestamo %}
+        <ul>
+        {% for prestamo in listaPrestamo %}
+            {#<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>#}
+            <li>{{ prestamo }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se efectuaron prestamos en esa fecha</p>
+{% endif %}
 </body>
 </html>

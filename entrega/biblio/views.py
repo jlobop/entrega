@@ -4,6 +4,7 @@ from .models import Copia, Socio, Prestamo, Libro
 from django.template import loader
 import datetime
 from .controllers import *
+import time
 
 from django.template.context_processors import request
 
@@ -18,6 +19,31 @@ def index(request):
     #return HttpResponse("Aqui ira un menu con links.")
 
 def prestamo(request,Id_socio,Isbn):
+
+    try:
+        socio = GestorSocios.get(Id=Id_socio)
+    except Exception as e:
+        if type(e).__name__ == 'DoesNotExist':
+            return HttpResponse("El Socio no existe " + Id_socio)
+        else:
+            return HttpResponse(type(e).__name__)
+
+    if socio.Estado_moroso:
+        return HttpResponse("El Socio " + Id_socio + " es moroso")
+
+    copia = GestorCopias.getCopiaDisponible(Isbn)
+
+    if copia == "No hay copias disponibles":
+        return HttpResponse("No hay copias disponibles para " + Isbn)
+
+    prestamo = Prestamo(Inventario = copia, Id = socio, Fecha_prestamo = '2017-06-24')
+    #prestamo = Prestamo(Inventario = copia, Id = socio, Fecha_prestamo = time.strftime("%Y-%m-%d"))
+
+    print(prestamo)
+
+
+
+    #Fecha_prestamo = time.strftime("%Y-%m-%d")
     return HttpResponse("implementa prestamo para el socio: "+ Id_socio +" para libro: "+Isbn)
 
 def devolucion(request,Id_socio,Inventario):
@@ -61,9 +87,15 @@ def prestamo_fecha(request,fecha):
     try:
         fechaValidada = datetime.datetime.strptime(fecha, '%Y-%m-%d')
     except ValueError:
-        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        raise ValueError("Formato de fecha incorrecto, debe ser YYYY-MM-DD")
 
-    lista='<BR>'.join([str(i) for i in GestorPrestamos.getPrestados(Estado='Pendiente')])
-    return HttpResponse("devuelve lista de libros prestados en determinada fecha " + str(fechaValidada) + str(fecha) + "<br>" + lista)
-    #Revisar que el input sea una fecha valida
+    #lista='<BR>'.join([str(i) for i in GestorPrestamos.getPrestados(Estado='Pendiente')])
+    lista=[str(i) for i in GestorPrestamos.getPrestados(Fecha_prestamo=fecha)]
+    lista_str = '<BR>'.join(lista)
 
+    template = loader.get_template('biblio/prestamo_fecha.html')
+    context = {
+        'fecha': fecha,
+        'listaPrestamo': lista,
+    }
+    return HttpResponse(template.render(context, request))
