@@ -36,8 +36,8 @@ def prestamo(request,Id_socio,Isbn):
     if copia == "No hay copias disponibles":
         return HttpResponse("No hay copias disponibles para " + Isbn)
 
-    prestamo = Prestamo(Inventario = copia, Id = socio, Fecha_prestamo = '2017-06-24')
-    #prestamo = Prestamo(Inventario = copia, Id = socio, Fecha_prestamo = time.strftime("%Y-%m-%d"))
+    prestamo = Prestamo(Inventario = copia, Id = socio, Fecha_prestamo = str(time.strftime("%Y-%m-%d")))
+    prestamo.save()
 
     print(prestamo)
 
@@ -89,7 +89,6 @@ def prestamo_fecha(request,fecha):
     except ValueError:
         raise ValueError("Formato de fecha incorrecto, debe ser YYYY-MM-DD")
 
-    #lista='<BR>'.join([str(i) for i in GestorPrestamos.getPrestados(Estado='Pendiente')])
     lista=[str(i) for i in GestorPrestamos.getPrestados(Fecha_prestamo=fecha)]
     lista_str = '<BR>'.join(lista)
 

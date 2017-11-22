@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your modefrom django.db import models
 from django.utils import timezone
@@ -43,16 +44,16 @@ class Prestamo(models.Model):
     Id = models.ForeignKey(Socio)
     Id_prestamo = models.AutoField(primary_key=True)
     Fecha_prestamo = models.DateField(unique=False,null=False)
-    Estado = models.CharField(max_length=15,default='Pendiente')
-    # Los estados son o Pendiente o Terminado
+    Estado = models.CharField(max_length=15,default='Pendiente') # Los estados son o Pendiente o Terminado
 
-    #Fecha_devolucion = date(int(str(Fecha_prestamo)) + datetime.timedelta(days=7))
-    
     def Calcular_Fecha_devolucion(self):
-        #self.Fecha_devolucion = Prestamo.Fecha_prestamo + datetime.timedelta(days=7)
-        Fecha_devolucion = self.Fecha_prestamo + timedelta(days=7)
+        if type(self.Fecha_prestamo) == str:
+            fechap = datetime.datetime.strptime(self.Fecha_prestamo, '%Y-%m-%d')
+        else:
+            fechap = self.Fecha_prestamo
+        Fecha_devolucion = fechap + timedelta(days=7)
+        Fecha_devolucion = datetime.datetime.date(Fecha_devolucion)
         return (Fecha_devolucion)
-    #def __init__(self):
-    #    self.Calcular_Fecha_devolucion()
+
     def __str__(self):
         return (str(self.Id)+", "+str(self.Calcular_Fecha_devolucion())+", "+str(self.Inventario))

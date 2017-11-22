@@ -28,6 +28,9 @@ class GestorCopias(object):
     def getCopiaDisponible(Isbn):
         listaCopia = GestorCopias.getCopias(Isbn=Isbn,Prestado=False)
         if listaCopia:
-            return listaCopia[0]
+            candidata = listaCopia[0]
+            candidata.Prestado = True
+            candidata.save()
+            return candidata
         else:
             return "No hay copias disponibles"
