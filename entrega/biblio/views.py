@@ -47,7 +47,9 @@ def prestamo(request,Id_socio,Isbn):
     return HttpResponse("implementa prestamo para el socio: "+ Id_socio +" para libro: "+Isbn)
 
 def devolucion(request,Id_socio,Inventario):
-    return HttpResponse("Implementa devolucion para el socio: "+ Id_socio +" para copia: "+Inventario)
+    resultadoDevolucion = GestorPrestamos.devolver(Id_socio,Inventario)
+    return HttpResponse(str(resultadoDevolucion))
+
 
 def info_socio(request,Id_socio):
     socio_inst = get_object_or_404(Socio, pk=Id_socio)

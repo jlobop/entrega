@@ -52,7 +52,9 @@ class Prestamo(models.Model):
         else:
             fechap = self.Fecha_prestamo
         Fecha_devolucion = fechap + timedelta(days=7)
-        Fecha_devolucion = datetime.datetime.date(Fecha_devolucion)
+        if type(Fecha_devolucion) == datetime.datetime:
+            Fecha_devolucion = datetime.datetime.date(Fecha_devolucion)
+
         return (Fecha_devolucion)
 
     def __str__(self):
