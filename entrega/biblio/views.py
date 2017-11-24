@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Copia, Socio, Prestamo, Libro
 from django.template import loader
 import datetime
 from .controllers import *
+from .forms import *
 import time
 
 from django.template.context_processors import request
@@ -11,12 +12,37 @@ from django.template.context_processors import request
 # Create your views here.
 
 def index(request):
+    print(request)
+
+    if request.method != "GET":
+        return HttpResponse("chau")
+
+    #formLibro=LibroForm(request.GET)
+    #print(formLibro)
+    #print(request.GET)
+
+    if 'solicitud' in request.GET.keys():
+
+        solicitud = request.GET['solicitud']
+        print(solicitud)
+        if solicitud == 'info_libro':
+            #return redirect('info_libro',request.GET['Isbn'])
+            return HttpResponseRedirect("/biblio/libro/"+request.GET['Isbn'])
+
+
+
+    formSocio = SocioForm()
+    formLibro = LibroForm()
+
     template = loader.get_template('biblio/index.html')
     context = {
+        'formSocio': formSocio,
+        'formLibro': formLibro,
     }
-    print(template.render(context, request))
-    return HttpResponse(template.render(context, request))
-    #return HttpResponse("Aqui ira un menu con links.")
+    #print(template.render(context, request))
+    return render(request,'biblio/index.html',context)
+    #return HttpResponse(template.render(context, request))
+
 
 def prestamo(request,Id_socio,Isbn):
 

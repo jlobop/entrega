@@ -5,6 +5,25 @@
     <title>Indice</title>
 </head>
 <body>
-    <p><a href = "copia/1/"> Copia
+
+    <h1>Informacion de Socio</h1>
+    <form method="GET">
+    {#  {% csrf_token %}  #}
+    {{formSocio.as_p}}
+        <button type="submit">Consultar</button>
+    </form>
+
+
+    <h1>Informacion de Libro</h1>
+    <form method="GET">
+    {#   {% csrf_token %}  #}
+    {{formLibro.as_p}}
+        <input type='hidden' name='solicitud' value='info_libro' >
+        <button type="submit">Consultar</button>
+    </form>
+
+
+
+<p><a href = "copia/1/"> Copia
 </body>
 </html>
