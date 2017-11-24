@@ -53,37 +53,71 @@ def devolucion(request,Id_socio,Inventario):
 
 def info_socio(request,Id_socio):
     socio_inst = get_object_or_404(Socio, pk=Id_socio)
+    prestamo_lista = GestorPrestamos.getPrestados(Id = Id_socio)
+
     template = loader.get_template('biblio/info_socio.html')
     context = {
         'socio': socio_inst,
+        'prestamo_lista': prestamo_lista,
     }
     return HttpResponse(template.render(context, request))
     #return HttpResponse("devuelve informacion del socio "+ str(socio_inst) +"<br/>" + str(socio_inst.get_prestamos()))
 
 def info_copia(request,Inventario):
     copia_inst = get_object_or_404(Copia, pk = Inventario)
+    if copia_inst.Prestado == False:
+        template = loader.get_template('biblio/info_copia.html')
+        context = {
+            'copia': copia_inst,
+        }
+        return HttpResponse(template.render(context, request))
+
+    prestamo_inst = GestorPrestamos.getPrestados(Inventario = Inventario, Estado = 'Pendiente')[0]
+    socio_inst = prestamo_inst.Id
+    print(socio_inst)
     template = loader.get_template('biblio/info_copia.html')
     context = {
         'copia': copia_inst,
+        'socio': socio_inst,
     }
     return HttpResponse(template.render(context, request))
-    #return HttpResponse("devuelve informacion del copia "+Inventario)
 
 def info_libro(request,Isbn):
     libro_inst = get_object_or_404(Libro, pk=Isbn)
+
+    copia_lista = GestorCopias.getCopias(Isbn = Isbn)
+
     template = loader.get_template('biblio/info_libro.html')
     context = {
         'libro': libro_inst,
+        'copia_lista': copia_lista,
     }
     return HttpResponse(template.render(context, request))
-    #return render(request, '/detail.html', {'question': question})
-    #return HttpResponse("devuelve informacion del libro "+str(libro_inst))
 
 def morosos(request):
-    return HttpResponse("devuelve lista de moroso")
+    lista_socio_moroso = [str(i) for i in GestorSocios.getSocios(Estado_moroso=True)]
+    template = loader.get_template('biblio/morosos.html')
+    context = {
+        'lista_socio_moroso': lista_socio_moroso,
+    }
+    return HttpResponse(template.render(context, request))
 
 def futuros_morosos(request):
-    return HttpResponse("devuelve lista de futuros morosos")
+    lista_pendientes = GestorPrestamos.getPrestados(Estado = 'Pendiente')
+    #lista = list(map(lambda foo: foo.estaDemorado() ,lista_pendientes))
+    lista_prestamos_atrasados = list(filter(lambda futuro_moroso: futuro_moroso.estaDemorado(), lista_pendientes))
+
+    #[new_list.append(x) for x in list if x not in new_list]
+
+    lista_futuros_morosos = []
+    [lista_futuros_morosos.append(prestamo.Id) for prestamo in lista_prestamos_atrasados if prestamo.Id not in lista_futuros_morosos]
+
+    template = loader.get_template('biblio/futuros_morosos.html')
+    context = {
+        'lista_futuros_morosos': lista_futuros_morosos,
+    }
+    return HttpResponse(template.render(context, request))
+    #return HttpResponse("devuelve lista de futuros morosos"+'<br>'+'<br>'.join(str(i) for i in lista_futuros_morosos))
 
 def prestamo_fecha(request,fecha):
     try:
@@ -92,7 +126,6 @@ def prestamo_fecha(request,fecha):
         raise ValueError("Formato de fecha incorrecto, debe ser YYYY-MM-DD")
 
     lista=[str(i) for i in GestorPrestamos.getPrestados(Fecha_prestamo=fecha)]
-    lista_str = '<BR>'.join(lista)
 
     template = loader.get_template('biblio/prestamo_fecha.html')
     context = {

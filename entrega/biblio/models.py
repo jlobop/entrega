@@ -54,8 +54,12 @@ class Prestamo(models.Model):
         Fecha_devolucion = fechap + timedelta(days=7)
         if type(Fecha_devolucion) == datetime.datetime:
             Fecha_devolucion = datetime.datetime.date(Fecha_devolucion)
-
         return (Fecha_devolucion)
+
+    def estaDemorado(self):
+        return (self.Calcular_Fecha_devolucion() <= datetime.date.today())
+
+
 
     def __str__(self):
         return (str(self.Id)+", "+str(self.Calcular_Fecha_devolucion())+", "+str(self.Inventario))

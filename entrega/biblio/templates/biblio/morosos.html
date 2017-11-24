@@ -2,9 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Morosos</title>
 </head>
 <body>
-
+    <h1>Lista de socios morosos</h1>
+    {% if lista_socio_moroso %}
+        <ul>
+        {% for moroso in lista_socio_moroso %}
+            <li>{{ moroso }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay usuarios morosos</p>
+    {% endif %}
 </body>
 </html>

@@ -6,9 +6,25 @@
 </head>
 <body>
     <h1>{{ libro.Isbn }}</h1>
-        <li>Socio: {{ libro.Isbn }}</li>
-        <li>Nombre: {{ libro.Titulo }}</li>
-        <li>Apellido: {{ libro.Autor }}</li>
-        <li>Fecha_ingreso: {{ libro.Fecha_ingreso }}</li>
+        <ul>
+            <li>Socio: {{ libro.Isbn }}</li>
+            <li>Nombre: {{ libro.Titulo }}</li>
+            <li>Apellido: {{ libro.Autor }}</li>
+            <li>Fecha_ingreso: {{ libro.Fecha_ingreso }}</li>
+        </ul>
+        {% if copia_lista %}
+        <h2>Lista de copias</h2>
+            <table border='1'>
+                <tr>
+                    <th>Inventario</th><th>Prestado</th>
+                </tr>
+                {% for copia in copia_lista  %}
+                <tr>
+                    <td> {{copia.Inventario}} </td>
+                    <td> {{copia.Prestado }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
 </body>
 </html>

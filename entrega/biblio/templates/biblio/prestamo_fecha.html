@@ -9,12 +9,11 @@
     {% if listaPrestamo %}
         <ul>
         {% for prestamo in listaPrestamo %}
-            {#<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>#}
             <li>{{ prestamo }}</li>
         {% endfor %}
         </ul>
     {% else %}
         <p>No se efectuaron prestamos en esa fecha</p>
-{% endif %}
+    {% endif %}
 </body>
 </html>
