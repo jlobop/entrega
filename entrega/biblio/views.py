@@ -14,6 +14,8 @@ from django.template.context_processors import request
 def index(request):
     print(request)
 
+    urlbase='/biblio/'
+
     if request.method != "GET":
         return HttpResponse("chau")
 
@@ -26,10 +28,19 @@ def index(request):
         solicitud = request.GET['solicitud']
         print(solicitud)
         if solicitud == 'info_libro':
-            #return redirect('info_libro',request.GET['Isbn'])
-            return HttpResponseRedirect("/biblio/libro/"+request.GET['Isbn'])
 
+            Isbn=request.GET['Isbn']
+            return HttpResponseRedirect(urlbase+"libro/" + Isbn)
+            #return redirect(info_libro,Isbn=request.GET['Isbn'])
 
+        elif solicitud == 'info_socio':
+            return HttpResponseRedirect(urlbase+"morosos")
+        elif solicitud == 'info_copia':
+            return HttpResponseRedirect(urlbase+"morosos")
+        elif solicitud == 'morosos':
+            return HttpResponseRedirect(urlbase+"morosos")
+        elif solicitud == 'futuros_morosos':
+            return HttpResponseRedirect(urlbase+"futuros_morosos")
 
     formSocio = SocioForm()
     formLibro = LibroForm()
