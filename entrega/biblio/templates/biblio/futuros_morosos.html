@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Futuros morosos</title>
+</head>
+<body>
+    <h1>Lista de futuros morosos</h1>
+    {% if lista_futuros_morosos %}
+        <ul>
+        {% for futuro_moroso in lista_futuros_morosos %}
+            <li>{{ futuro_moroso }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay usuarios futuro morosos</p>
+    {% endif %}
+</body>
+</html>

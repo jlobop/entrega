@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Socio</title>
+</head>
+<body>
+    <h1>{{ socio.Id }}</h1>
+        <li>Socio: {{ socio.Id }}</li>
+        <li>Nombre: {{ socio.Nombre }}</li>
+        <li>Apellido: {{ socio.Apellido }}</li>
+        <li>Email: {{ socio.Email }}</li>
+        <li>Moroso: {{ socio.Estado_moroso }}</li>
+        {% if prestamo_lista %}
+        <h2>Lista de prestamos</h2>
+            <table border='1'>
+                <tr>
+                    <th>Inventario</th><th>Fecha del prestamo</th><th>Estado</th>
+                </tr>
+                {% for prestamo in prestamo_lista  %}
+                <tr>
+                    <td> {{prestamo.Inventario}} </td>
+                    <td> {{prestamo.Fecha_prestamo }} </td>
+                    <td> {{prestamo.Estado }} </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+</body>
+</html>

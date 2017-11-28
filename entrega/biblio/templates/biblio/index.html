@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Indice</title>
+</head>
+<body>
+
+    <h1>Informacion de Socio</h1>
+    <form method="GET">
+    {#  {% csrf_token %}  #}
+    {{formSocio}}
+        <button type="submit">Consultar Informacion de Socio</button>
+    </form>
+
+
+    <h1>Informacion de Libro</h1>
+    <form method="GET">
+    {#   {% csrf_token %}  #}
+        {{formLibro}}
+        <input type='hidden' name='solicitud' value='info_libro' >
+        <button type="submit">Consultar Informacion de Libro</button>
+    </form>
+
+    <h1>Lista de Morosos</h1>
+    <form method="GET">
+    {#   {% csrf_token %}  #}
+        <input type='hidden' name='solicitud' value='morosos' >
+        <button type="submit">Consultar Lista de Morosos</button>
+    </form>
+
+    <h1>Futuros Morosos</h1>
+    <form method="GET">
+    {#   {% csrf_token %}  #}
+        <input type='hidden' name='solicitud' value='futuros_morosos' >
+        <button type="submit">Consultar Lista de Futuros Morosos</button>
+    </form>
+
+<!--<p><a href = "copia/1/"> Copia-->
+</body>
+</html>

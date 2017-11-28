@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Copia</title>
+</head>
+<body>
+    <h1>{{ copia.Inventario }} -- {{ copia.Isbn }}</h1>
+      <ul>
+        <li>Isbn: {{ copia.Isbn }}</li>
+        <li>Copia: {{ copia.Inventario }}</li>
+        <li>Prestado: {{ copia.Prestado }}</li>
+      </ul>
+{% if socio %}
+    <h2>Prestado a:</h2>
+      <ul>
+        <li>Id: {{ socio.Id }}</li>
+        <li>Nombre: {{ socio.Nombre }}</li>
+        <li>Apellido: {{ socio.Apellido}}</li>
+      </ul>
+{% endif %}
+</body>
+</html>

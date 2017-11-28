@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prestamos en la fecha</title>
+</head>
+<body>
+    <h1>Prestamos realizados en la fecha {{ fecha }}</h1>
+    {% if listaPrestamo %}
+        <ul>
+        {% for prestamo in listaPrestamo %}
+            <li>{{ prestamo }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se efectuaron prestamos en esa fecha</p>
+    {% endif %}
+</body>
+</html>
