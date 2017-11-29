@@ -1,41 +1,123 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Indice</title>
-</head>
-<body>
+    
+ 	<meta name="author" content="Juan Vanerio">
+ 	<meta name="author" content="Jose Restaino">
+ 	<meta name="author" content="Jorge Lobo">
+	<meta name="description" content="Menu con links hacia otras funcionalidades del sistema. ">
 
-    <h1>Informacion de Socio</h1>
+	 <script>
+	  $(function() {
+	    $( ".datepicker" ).datepicker({
+	      changeMonth: true,
+	      changeYear: true,
+	      yearRange: "2000:2050",
+	      // You can put more options here.
+	
+	    });
+	  });
+  </script>
+
+</head>
+
+<body>
+    <div style="text-align:center" >
+	<section>
+		<header role="banner">
+			<h1>Mini Sistema de Gestión de Bibliotecas</h1>
+		</header>
+	</section>
+    </div>
+    <h3>Informacion de Socio</h3>
     <form method="GET">
     {#  {% csrf_token %}  #}
-    {{formSocio}}
+        {{formSocio}}
         <button type="submit">Consultar Informacion de Socio</button>
     </form>
+    <hr>
 
-
-    <h1>Informacion de Libro</h1>
+    <h3>Informacion de Libro</h3>
     <form method="GET">
     {#   {% csrf_token %}  #}
         {{formLibro}}
-        <input type='hidden' name='solicitud' value='info_libro' >
         <button type="submit">Consultar Informacion de Libro</button>
     </form>
-
-    <h1>Lista de Morosos</h1>
+    <hr>
+    
+    <h3>Informacion de Copia</h3>
     <form method="GET">
     {#   {% csrf_token %}  #}
-        <input type='hidden' name='solicitud' value='morosos' >
+        {{formCopia}}
+        <button type="submit">Consultar Informacion de Copia</button>
+    </form>
+    <hr>
+
+    <h3>Lista de Morosos</h3>
+    <form method="GET">
+    {#   {% csrf_token %}  #}
+        {{formMorosos}}
         <button type="submit">Consultar Lista de Morosos</button>
     </form>
-
-    <h1>Futuros Morosos</h1>
+    <hr>
+    
+    <h3>Futuros Morosos</h3>
     <form method="GET">
     {#   {% csrf_token %}  #}
-        <input type='hidden' name='solicitud' value='futuros_morosos' >
+        {{formFuturos_morosos}}
         <button type="submit">Consultar Lista de Futuros Morosos</button>
     </form>
+    <hr>
+    
+    <h3>Prestamo por Fecha</h3>
+    <form method="GET">
+    {#   {% csrf_token %}  #}
+        {{formPrestamo_fecha}}
+        <button type="submit">Consultar Prestamo por Fecha</button>
+    </form>
+    <hr>
 
-<!--<p><a href = "copia/1/"> Copia-->
+    <h3>Realizar Prestamo</h3>
+    <form method="POST">
+    {% csrf_token %}
+        {{formPrestamo}}
+        <button type="submit">Realizar Prestamo</button>
+    </form>
+    <hr>
+
+    <h3>Realizar Devolución</h3>
+    <form method="POST">
+    {% csrf_token %}
+        {{formDevolucion}}
+        <button type="submit">Realizar Devolucion</button>
+    </form>
+    <hr>
+
+    <h3>Alta Socio</h3>
+    <form method="POST">
+    {% csrf_token %}
+        {{formAltaSocio.as_ul}}
+        <button type="submit">Ingresar Nuevo Socio</button>
+    </form>
+    <hr>
+
+    <h3>Alta Libro</h3>
+    <form method="POST">
+    {% csrf_token %}
+        {{formAltaLibro.as_ul}}
+        <button type="submit">Ingresar Nuevo Libro (sin copias)</button>
+    </form>
+    <hr>
+        
+    <div style="text-align:center" fontsize="8" >
+	<section>
+		<footer> <font size="1" color="gray">
+                        <em>Jorge Lobo, Jose Restaino, Juan Vanerio. 2017. ANTEL - OMSED - MEI. </em>
+			</font>
+		</footer>
+	</section>
+    </div>
 </body>
 </html>
