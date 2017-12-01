@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from . import views
-#url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
 app_name = 'biblio'
 urlpatterns= [
     url(r'^$', views.index, name='index'),
@@ -15,4 +14,3 @@ urlpatterns= [
     url(r'^.*$', views.index, name='default'),
     ]
     
-#prueba update

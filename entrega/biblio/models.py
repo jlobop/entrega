@@ -16,8 +16,7 @@ class Libro(models.Model):
     Fecha_ingreso = models.DateField(unique=False)
     def __str__(self):
         return (str(self.Isbn)+", "+self.Titulo)
-    #def was_published_recently(self):
-     #   return self.pub_date >= timezone.now()-datetime.timedelta(days=1)
+
     
 class Copia(models.Model):
     Isbn = models.ForeignKey(Libro)
@@ -26,22 +25,24 @@ class Copia(models.Model):
     def __str__(self):
         return(str(self.Inventario)+" "+str(self.Isbn))
 
+
 class Socio(models.Model):
-    Id = models.AutoField(primary_key=True)
+    Id_socio = models.AutoField(primary_key=True)
     Nombre = models.CharField(max_length=20)
     Apellido = models.CharField(max_length=20)
     Email = models.EmailField()
     Fecha_nac = models.DateField(unique=False)
     Estado_moroso = models.BooleanField(default=False)
     def __str__(self):
-        return (str(self.Id)+", "+self.Nombre+" "+self.Apellido)
+        return (str(self.Id_socio)+", "+self.Nombre+" "+self.Apellido)
     def get_prestamos(self):
         lista=self.prestamo_set.all()
         return(lista)
     
+    
 class Prestamo(models.Model):
     Inventario = models.ForeignKey(Copia)
-    Id = models.ForeignKey(Socio)
+    Id_socio = models.ForeignKey(Socio)
     Id_prestamo = models.AutoField(primary_key=True)
     Fecha_prestamo = models.DateField(unique=False,null=False)
     Estado = models.CharField(max_length=15,default='Pendiente') # Los estados son o Pendiente o Terminado
@@ -62,4 +63,4 @@ class Prestamo(models.Model):
 
 
     def __str__(self):
-        return (str(self.Id)+", "+str(self.Calcular_Fecha_devolucion())+", "+str(self.Inventario))
+        return (str(self.Id_socio)+", "+str(self.Calcular_Fecha_devolucion())+", "+str(self.Inventario))
