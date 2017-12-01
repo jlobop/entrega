@@ -7,11 +7,21 @@
 <body>
     <h1>Prestamos realizados en la fecha {{ fecha }}</h1>
     {% if listaPrestamo %}
-        <ul>
-        {% for prestamo in listaPrestamo %}
-            <li>{{ prestamo }}</li>
-        {% endfor %}
-        </ul>
+    
+        <table border='1'>
+        	<tr>
+            	<th>Inventario</th><th>Fecha del prestamo</th><th>Fecha de la devolucion</th><th>Estado</th>
+            </tr>
+            {% for prestamo in listaPrestamo  %}
+            <tr>
+            	<td> {{prestamo.Inventario}} </td>
+                <td> {{prestamo.Fecha_prestamo }} </td>
+                <td> {{prestamo.Fecha_devolucion }} </td>
+                <td> {{prestamo.Estado }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+
     {% else %}
         <p>No se efectuaron prestamos en esa fecha</p>
     {% endif %}

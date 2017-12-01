@@ -16,11 +16,11 @@ class LibroForm(forms.ModelForm):
 
 class SocioForm(forms.Form):
     #Id_socio = forms.IntegerField()
-    Id_socio = forms.ModelMultipleChoiceField(queryset=Socio.objects.all())
+    Id_socio = forms.ModelChoiceField(queryset=Socio.objects.all())
     solicitud = forms.CharField( widget=forms.HiddenInput(),initial='info_socio')
 
 class LibroForm(forms.Form):
-    Isbn = forms.ModelMultipleChoiceField(queryset=Libro.objects.all())
+    Isbn = forms.ModelChoiceField(queryset=Libro.objects.all())
     solicitud = forms.CharField( widget=forms.HiddenInput(),initial='info_libro')
 
 
@@ -41,7 +41,7 @@ class AltaLibroForm(forms.Form):
     ncopias = forms.IntegerField(min_value=1,max_value=10,initial=1,label='Cantidad de Copias')
 
 class CopiaForm(forms.Form):
-    Inventario = forms.ModelMultipleChoiceField(queryset=Copia.objects.all())
+    Inventario = forms.ModelChoiceField(queryset=Copia.objects.all())
     solicitud = forms.CharField( widget=forms.HiddenInput(),initial='info_copia')
     
 class MorososForm(forms.Form):
@@ -55,11 +55,11 @@ class Prestamo_fechaForm(forms.Form):
     solicitud = forms.CharField( widget=forms.HiddenInput(),initial='prestamo_fecha')
     
 class PrestamoForm(forms.Form):
-    Id_socio = forms.ModelMultipleChoiceField(queryset=Socio.objects.filter(Estado_moroso=False))
-    Isbn = forms.ModelMultipleChoiceField(queryset=Libro.objects.all())
+    Id_socio = forms.ModelChoiceField(queryset=Socio.objects.filter(Estado_moroso=False),label='Socio (no moroso)')
+    Isbn = forms.ModelChoiceField(queryset=Libro.objects.all())
     solicitud = forms.CharField( widget=forms.HiddenInput(),initial='prestamo')
     
 class DevolucionForm(forms.Form):
-    Id_socio = forms.ModelMultipleChoiceField(queryset=Socio.objects.all())
-    Inventario = forms.ModelMultipleChoiceField(queryset=Copia.objects.filter(Prestado=True))
+    Id_socio = forms.ModelChoiceField(queryset=Socio.objects.all())
+    Inventario = forms.ModelChoiceField(queryset=Copia.objects.filter(Prestado=True))
     solicitud = forms.CharField( widget=forms.HiddenInput(),initial='devolucion')

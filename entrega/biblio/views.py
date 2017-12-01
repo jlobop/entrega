@@ -8,6 +8,7 @@ from .forms import *
 import time
 
 from django.template.context_processors import request
+from time import strptime
 
 
 def index(request):
@@ -23,8 +24,8 @@ def index(request):
             if solicitud == 'prestamo':
                 formPrestamo = PrestamoForm(request.POST)
                 if formPrestamo.is_valid():
-                    libro=formPrestamo.cleaned_data['Isbn'][0]
-                    socio=formPrestamo.cleaned_data['Id_socio'][0]
+                    libro=formPrestamo.cleaned_data['Isbn']
+                    socio=formPrestamo.cleaned_data['Id_socio']
                     print(libro)
                     print(socio)
                     Isbn = str(libro.Isbn)
@@ -38,10 +39,11 @@ def index(request):
             elif solicitud == 'devolucion':
                 formDevolucion = DevolucionForm(request.POST)
                 if formDevolucion.is_valid():
-                    copia=formDevolucion.cleaned_data['Inventario'][0]
-                    socio=formDevolucion.cleaned_data['Id_socio'][0]
+                    copia=formDevolucion.cleaned_data['Inventario']
                     print(copia)
+                    socio=formDevolucion.cleaned_data['Id_socio']
                     print(socio)
+
                     Inventario = str(copia.Inventario)
                     Id_socio=str(socio.Id_socio)
 
@@ -91,7 +93,7 @@ def index(request):
         if solicitud == 'info_libro':
             formLibro=LibroForm(request.GET)
             if formLibro.is_valid():
-                libro=formLibro.cleaned_data['Isbn'][0]
+                libro=formLibro.cleaned_data['Isbn']
                 Isbn = str(libro.Isbn)
                 return redirect(urlbase+"libro/" + Isbn)
             else:
@@ -107,7 +109,7 @@ def index(request):
             formCopia=CopiaForm(request.GET)
             if formCopia.is_valid():
                 #Isbn=request.GET['Isbn']
-                copia=formCopia.cleaned_data['Inventario'][0]
+                copia=formCopia.cleaned_data['Inventario']
                 Inventario = str(copia.Inventario)
                 return redirect(urlbase+"copia/" + Inventario)
             else:
@@ -264,7 +266,13 @@ def prestamo_fecha(request,fecha):
     except ValueError:
         raise ValueError("Formato de fecha incorrecto, debe ser YYYY-MM-DD")
 
-    lista=[str(i) for i in GestorPrestamos.getPrestados(Fecha_prestamo=fecha)]
+    #lista=[str(i) for i in GestorPrestamos.getPrestados(Fecha_prestamo=fecha)]
+    lista=[{'Inventario': i.Inventario,
+            'Fecha_prestamo': str(i.Fecha_prestamo),
+            'Fecha_devolucion': str(i.Calcular_Fecha_devolucion()),
+            'Estado': i.Estado,
+            } for i in GestorPrestamos.getPrestados(Fecha_prestamo=fecha)]
+    #Calcular_Fecha_devolucion()
 
     template = loader.get_template('biblio/prestamo_fecha.html')
     context = {
